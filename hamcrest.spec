@@ -124,7 +124,7 @@ ln -sf $(build-classpath testng-jdk15) lib/integration/
 
 %build
 export OPT_JAR_LIST="ant-launcher ant/ant-junit junit"
-export CLASSPATH="asm3"
+export CLASSPATH="asm3 ant-launcher"
 %{ant} -Dversion=1.1 -Dbuild.sysclasspath=first all javadoc
 
 %install
