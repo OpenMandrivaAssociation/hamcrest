@@ -48,7 +48,7 @@ Source6:        http://repo1.maven.org/maven2/org/hamcrest/hamcrest-all/1.1/hamc
 Source7:        hamcrest-text-1.1.pom
 Patch0:         hamcrest-1.1-build.patch
 BuildRequires:  jpackage-utils >= 0:1.7.4
-BuildRequires:  java-devel = 0:1.5.0
+BuildRequires:  java-rpmbuild
 BuildRequires:  ant >= 0:1.6.5
 BuildRequires:  ant-junit
 BuildRequires:  easymock2
