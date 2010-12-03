@@ -32,7 +32,7 @@
 
 Name:           hamcrest
 Version:        1.1
-Release:        %mkrel 2.0.3
+Release:        %mkrel 2.0.4
 Epoch:          0
 Summary:        Hamcrest matcher object framework
 License:        BSD
