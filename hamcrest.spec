@@ -50,7 +50,7 @@
 
 Name:           hamcrest
 Version:        1.1
-Release:        10.5
+Release:        10.7
 Summary:        Library of matchers for building test expressions
 License:        BSD
 URL:            http://code.google.com/p/hamcrest/
