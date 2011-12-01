@@ -178,62 +178,62 @@ touch META-INF/MANIFEST.MF
 zip -u build/%{name}-core-%{version}.jar META-INF/MANIFEST.MF
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 # jars
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/%{name}
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-parent.pom
+install -d -m 755 %{buildroot}%{_javadir}/%{name}
+install -d -m 755 %{buildroot}%{_datadir}/maven2/poms
+install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-parent.pom
 %add_to_maven_depmap org.hamcrest %{name}-parent %{version} JPP/%{name} parent
 
-install -m 644 build/%{name}-all-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/all-%{version}.jar
-install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-all.pom
+install -m 644 build/%{name}-all-%{version}.jar %{buildroot}%{_javadir}/%{name}/all-%{version}.jar
+install -m 644 %{SOURCE6} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-all.pom
 %add_to_maven_depmap org.hamcrest %{name}-all %{version} JPP/%{name} all
 
-install -m 644 build/%{name}-core-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/core-%{version}.jar
-install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-core.pom
+install -m 644 build/%{name}-core-%{version}.jar %{buildroot}%{_javadir}/%{name}/core-%{version}.jar
+install -m 644 %{SOURCE5} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-core.pom
 %add_to_maven_depmap org.hamcrest %{name}-core %{version} JPP/%{name} core
 
-install -m 644 build/%{name}-generator-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/generator-%{version}.jar
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-generator.pom
+install -m 644 build/%{name}-generator-%{version}.jar %{buildroot}%{_javadir}/%{name}/generator-%{version}.jar
+install -m 644 %{SOURCE4} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-generator.pom
 %add_to_maven_depmap org.hamcrest %{name}-generator %{version} JPP/%{name} generator
 
-install -m 644 build/%{name}-library-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/library-%{version}.jar
-install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-library.pom
+install -m 644 build/%{name}-library-%{version}.jar %{buildroot}%{_javadir}/%{name}/library-%{version}.jar
+install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-library.pom
 %add_to_maven_depmap org.hamcrest %{name}-library %{version} JPP/%{name} library
 
 %if %with integration
-install -m 644 build/%{name}-integration-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/integration-%{version}.jar
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-integration.pom
+install -m 644 build/%{name}-integration-%{version}.jar %{buildroot}%{_javadir}/%{name}/integration-%{version}.jar
+install -m 644 %{SOURCE3} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-integration.pom
 %add_to_maven_depmap org.hamcrest %{name}-integration %{version} JPP/%{name} integration
 %endif
 
-install -m 644 build/%{name}-text-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/text-%{version}.jar
-install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-text.pom
+install -m 644 build/%{name}-text-%{version}.jar %{buildroot}%{_javadir}/%{name}/text-%{version}.jar
+install -m 644 %{SOURCE7} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-text.pom
 %add_to_maven_depmap org.hamcrest %{name}-text %{version} JPP/%{name} text
 
 %if %with tests
-install -m 644 build/%{name}-unit-test-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/unit-test-%{version}.jar
+install -m 644 build/%{name}-unit-test-%{version}.jar %{buildroot}%{_javadir}/%{name}/unit-test-%{version}.jar
 %endif
 
-pushd $RPM_BUILD_ROOT%{_javadir}/%{name}
+pushd %{buildroot}%{_javadir}/%{name}
 for jar in *-%{version}*; do ln -sf ${jar} `echo $jar| sed  "s|-%{version}||g"`; done
 popd
 
 # javadoc
-install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -pr build/javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name}
+install -d -m 755 %{buildroot}%{_javadocdir}/%{name}-%{version}
+cp -pr build/javadoc/* %{buildroot}%{_javadocdir}/%{name}-%{version}
+ln -s %{name}-%{version} %{buildroot}%{_javadocdir}/%{name}
 
 # demo
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
+install -d -m 755 %{buildroot}%{_datadir}/%{name}-%{version}
 %if %with integration
-install -m 644 build/%{name}-examples-%{version}.jar $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
+install -m 644 build/%{name}-examples-%{version}.jar %{buildroot}%{_datadir}/%{name}-%{version}
 %endif
-cp -pr %{name}-examples $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/
-ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -pr %{name}-examples %{buildroot}%{_datadir}/%{name}-%{version}/
+ln -s %{name}-%{version} %{buildroot}%{_datadir}/%{name}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post
 %update_maven_depmap
