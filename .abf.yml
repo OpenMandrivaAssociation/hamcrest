@@ -1,0 +1,10 @@
+sources:
+  "hamcrest-1.1.tgz:"	e7c8511e3702545eb50b38e5aa2c3d887d8393ef
+  "hamcrest-all-1.1.pom:"	45351b2d906415ef5cd697e56f7b36e49c56ab7e
+  "hamcrest-core-1.1.pom:"	fe8b54d8729315853ee866322436df89aa8ab9ae
+  "hamcrest-core-MANIFEST.MF:"	5cf033a5d2f256669288819b03c54699b235d724
+  "hamcrest-generator-1.1.pom:"	6ada691d179c2bc04c23f44df146c20d5943f7b8
+  "hamcrest-integration-1.1.pom:"	d3e767305611db4d9f37e89ec376774b040b8056
+  "hamcrest-library-1.1.pom:"	ef8e295827de5193fab60428c86fe592800f6f1d
+  "hamcrest-parent-1.1.pom:"	31ef4ab73bb6d6173f46ecf92d6bd9047516c6ca
+  "hamcrest-text-1.1.pom:"	088e1e81bead00236cd33d72ebb053a2db1135f6
