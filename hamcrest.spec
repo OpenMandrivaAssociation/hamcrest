@@ -30,49 +30,48 @@
 
 %define gcj_support 1
 
-Name:           hamcrest
-Version:        1.1
-Release:        %mkrel 2.0.6
-Epoch:          0
-Summary:        Hamcrest matcher object framework
-License:        BSD
-Url:            http://code.google.com/p/hamcrest/
-Group:          Development/Java
-Source0:        http://hamcrest.googlecode.com/files/hamcrest-1.1.tgz
-Source1:        http://repo1.maven.org/maven2/org/hamcrest/hamcrest-parent/1.1/hamcrest-parent-1.1.pom
-Source2:        http://repo1.maven.org/maven2/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.pom
-Source3:        http://repo1.maven.org/maven2/org/hamcrest/hamcrest-integration/1.1/hamcrest-integration-1.1.pom
-Source4:        http://repo1.maven.org/maven2/org/hamcrest/hamcrest-generator/1.1/hamcrest-generator-1.1.pom
-Source5:        http://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.pom
-Source6:        http://repo1.maven.org/maven2/org/hamcrest/hamcrest-all/1.1/hamcrest-all-1.1.pom
-Source7:        hamcrest-text-1.1.pom
-Patch0:         hamcrest-1.1-build.patch
-BuildRequires:  jpackage-utils >= 0:1.7.4
-BuildRequires:  java-rpmbuild
-BuildRequires:  ant >= 0:1.6.5
-BuildRequires:  ant-junit
-BuildRequires:  easymock2
-BuildRequires:  jarjar
-BuildRequires:  jmock
-BuildRequires:  junit
-BuildRequires:  junit4
-BuildRequires:  qdox
-BuildRequires:  testng
-Requires:  java >= 0:1.5.0
-Requires:  easymock2
-Requires:  jmock
-Requires:  qdox
+Name:			hamcrest
+Version:		1.1
+Release:		2.0.7
+Epoch:			0
+Summary:		Hamcrest matcher object framework
+License:		BSD
+Url:			http://code.google.com/p/hamcrest/
+Group:			Development/Java
+Source0:		http://hamcrest.googlecode.com/files/hamcrest-1.1.tgz
+Source1:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-parent/1.1/hamcrest-parent-1.1.pom
+Source2:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.pom
+Source3:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-integration/1.1/hamcrest-integration-1.1.pom
+Source4:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-generator/1.1/hamcrest-generator-1.1.pom
+Source5:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.pom
+Source6:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-all/1.1/hamcrest-all-1.1.pom
+Source7:		hamcrest-text-1.1.pom
+Patch0:			hamcrest-1.1-build.patch
+BuildRequires:	jpackage-utils >= 0:1.7.4
+BuildRequires:	java-rpmbuild
+BuildRequires:	ant >= 0:1.6.5
+BuildRequires:	ant-junit
+BuildRequires:	easymock2
+BuildRequires:	jarjar
+BuildRequires:	jmock
+BuildRequires:	junit
+BuildRequires:	junit4
+BuildRequires:	qdox
+BuildRequires:	testng
+Requires:	java >= 0:1.5.0
+Requires:	easymock2
+Requires:	jmock
+Requires:	qdox
 %if ! %{gcj_support}
-Buildarch:     noarch
+Buildarch:		noarch
 %endif
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %if %{gcj_support}
-BuildRequires:          java-gcj-compat-devel
+BuildRequires:	java-gcj-compat-devel
 %endif
 
-Requires(post):    jpackage-utils >= 0:1.7.4
-Requires(postun):  jpackage-utils >= 0:1.7.4
+Requires(post):		jpackage-utils >= 0:1.7.4
+Requires(postun):	jpackage-utils >= 0:1.7.4
 
 %description
 Provides a library of matcher objects (also known as 
@@ -82,22 +81,22 @@ Typical scenarios include testing frameworks, mocking
 libraries and UI validation rules.
 
 %package javadoc
-Group:          Development/Java
-Summary:        Javadoc for %{name}
+Group:		Development/Java
+Summary:	Javadoc for %{name}
 
 %description javadoc
 Javadoc for %{name}.
 
 %package demo
-Group:          Development/Java
-Summary:        Demos for %{name}
-Requires:       %{name} = %{version}-%{release}
-Requires:       junit
-Requires:       junit4
-Requires:       testng
+Group:		Development/Java
+Summary:	Demos for %{name}
+Requires:	%{name} = %{version}-%{release}
+Requires:	junit
+Requires:	junit4
+Requires:	testng
 
 %if %{gcj_support}
-BuildRequires:          java-gcj-compat-devel
+BuildRequires:	java-gcj-compat-devel
 %endif
 
 %description demo
@@ -128,58 +127,54 @@ export CLASSPATH=$(build-classpath asm3 ant-launcher ant ant/ant-junit)
 %{ant} -Dversion=1.1 -Dbuild.sysclasspath=first all javadoc
 
 %install
-rm -rf $RPM_BUILD_ROOT
+
 # jars
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/%{name}
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-parent.pom
+install -d -m 755 %{buildroot}%{_javadir}/%{name}
+install -d -m 755 %{buildroot}%{_datadir}/maven2/poms
+install -m 644 %{SOURCE1} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-parent.pom
 %add_to_maven_depmap org.hamcrest %{name}-parent %{version} JPP/%{name} parent
 
-install -m 644 build/%{name}-all-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/all-%{version}.jar
-install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-all.pom
+install -m 644 build/%{name}-all-%{version}.jar %{buildroot}%{_javadir}/%{name}/all-%{version}.jar
+install -m 644 %{SOURCE6} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-all.pom
 %add_to_maven_depmap org.hamcrest %{name}-all %{version} JPP/%{name} all
 
-install -m 644 build/%{name}-core-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/core-%{version}.jar
-install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-core.pom
+install -m 644 build/%{name}-core-%{version}.jar %{buildroot}%{_javadir}/%{name}/core-%{version}.jar
+install -m 644 %{SOURCE5} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-core.pom
 %add_to_maven_depmap org.hamcrest %{name}-core %{version} JPP/%{name} core
 
-install -m 644 build/%{name}-generator-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/generator-%{version}.jar
-install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-generator.pom
+install -m 644 build/%{name}-generator-%{version}.jar %{buildroot}%{_javadir}/%{name}/generator-%{version}.jar
+install -m 644 %{SOURCE4} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-generator.pom
 %add_to_maven_depmap org.hamcrest %{name}-generator %{version} JPP/%{name} generator
 
-install -m 644 build/%{name}-library-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/library-%{version}.jar
-install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-library.pom
+install -m 644 build/%{name}-library-%{version}.jar %{buildroot}%{_javadir}/%{name}/library-%{version}.jar
+install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-library.pom
 %add_to_maven_depmap org.hamcrest %{name}-library %{version} JPP/%{name} library
 
-install -m 644 build/%{name}-integration-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/integration-%{version}.jar
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-integration.pom
+install -m 644 build/%{name}-integration-%{version}.jar %{buildroot}%{_javadir}/%{name}/integration-%{version}.jar
+install -m 644 %{SOURCE3} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-integration.pom
 %add_to_maven_depmap org.hamcrest %{name}-integration %{version} JPP/%{name} integration
 
-install -m 644 build/%{name}-text-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/text-%{version}.jar
-install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-text.pom
+install -m 644 build/%{name}-text-%{version}.jar %{buildroot}%{_javadir}/%{name}/text-%{version}.jar
+install -m 644 %{SOURCE7} %{buildroot}%{_datadir}/maven2/poms/JPP.%{name}-text.pom
 %add_to_maven_depmap org.hamcrest %{name}-text %{version} JPP/%{name} text
 
-install -m 644 build/%{name}-unit-test-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/unit-test-%{version}.jar
+install -m 644 build/%{name}-unit-test-%{version}.jar %{buildroot}%{_javadir}/%{name}/unit-test-%{version}.jar
 
-pushd $RPM_BUILD_ROOT%{_javadir}/%{name}
+pushd %{buildroot}%{_javadir}/%{name}
 for jar in *-%{version}*; do ln -sf ${jar} `echo $jar| sed  "s|-%{version}||g"`; done
 popd
 
 # javadoc
-install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -pr build/javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name}
+install -d -m 755 %{buildroot}%{_javadocdir}/%{name}-%{version}
+cp -pr build/javadoc/* %{buildroot}%{_javadocdir}/%{name}-%{version}
+ln -s %{name}-%{version} %{buildroot}%{_javadocdir}/%{name}
 
 # demo
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
-install -m 644 build/%{name}-examples-%{version}.jar $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
-cp -pr %{name}-examples $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/
+install -d -m 755 %{buildroot}%{_datadir}/%{name}-%{version}
+install -m 644 build/%{name}-examples-%{version}.jar %{buildroot}%{_datadir}/%{name}-%{version}
+cp -pr %{name}-examples %{buildroot}%{_datadir}/%{name}-%{version}/
 
 %{gcj_compile} 
-
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_maven_depmap
