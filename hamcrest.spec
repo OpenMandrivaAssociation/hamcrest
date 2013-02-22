@@ -29,6 +29,7 @@
 #
 
 %define gcj_support 1
+%bcond_without	bootstrap
 
 Name:           hamcrest
 Version:        1.1
@@ -50,12 +51,14 @@ Patch0:         hamcrest-1.1-build.patch
 BuildRequires:  jpackage-utils >= 0:1.7.4
 BuildRequires:  java-rpmbuild
 BuildRequires:  ant >= 0:1.6.5
-BuildRequires:  ant-junit
 BuildRequires:  easymock2
 BuildRequires:  jarjar
 BuildRequires:  jmock
+%if !%{with bootstrap}
+BuildRequires:  ant-junit
 BuildRequires:  junit
 BuildRequires:  junit4
+%endif
 BuildRequires:  qdox
 BuildRequires:  testng
 Requires:  java >= 0:1.5.0
@@ -125,7 +128,11 @@ ln -sf $(build-classpath testng) lib/integration/
 %build
 export OPT_JAR_LIST=$(build-classpath ant-launcher ant/ant-junit junit)
 export CLASSPATH=$(build-classpath asm3 ant-launcher ant ant/ant-junit)
+%if %{with bootstrap}
+%{ant} -Dversion=1.1 -Dbuild.sysclasspath=first bigjar core generator integration javadoc library text
+%else
 %{ant} -Dversion=1.1 -Dbuild.sysclasspath=first all javadoc
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -159,7 +166,9 @@ install -m 644 build/%{name}-text-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{na
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-text.pom
 %add_to_maven_depmap org.hamcrest %{name}-text %{version} JPP/%{name} text
 
+%if !%{with bootstrap}
 install -m 644 build/%{name}-unit-test-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/unit-test-%{version}.jar
+%endif
 
 pushd $RPM_BUILD_ROOT%{_javadir}/%{name}
 for jar in *-%{version}*; do ln -sf ${jar} `echo $jar| sed  "s|-%{version}||g"`; done
@@ -170,10 +179,12 @@ install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -pr build/javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
+%if !%{with bootstrap}
 # demo
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
 install -m 644 build/%{name}-examples-%{version}.jar $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}
 cp -pr %{name}-examples $RPM_BUILD_ROOT%{_datadir}/%{name}-%{version}/
+%endif
 
 %{gcj_compile} 
 
@@ -206,10 +217,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc %{_javadocdir}/%{name}-%{version}
 %doc %{_javadocdir}/%{name}
 
+%if !%{with bootstrap}
 %files demo
 %defattr(0644,root,root,0755)
 %{_datadir}/%{name}-%{version}
-
+%endif
 
 %changelog
 * Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.1-2.0.4mdv2011.0
