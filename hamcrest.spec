@@ -31,24 +31,22 @@
 %define gcj_support 0
 %bcond_without	bootstrap
 
-
-Name:			hamcrest
-Version:		1.1
-Release:		2.0.7
-Epoch:			0
-Summary:		Hamcrest matcher object framework
-License:		BSD
-Url:			http://code.google.com/p/hamcrest/
-Group:			Development/Java
-Source0:		http://hamcrest.googlecode.com/files/hamcrest-1.1.tgz
-Source1:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-parent/1.1/hamcrest-parent-1.1.pom
-Source2:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.pom
-Source3:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-integration/1.1/hamcrest-integration-1.1.pom
-Source4:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-generator/1.1/hamcrest-generator-1.1.pom
-Source5:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.pom
-Source6:		http://repo1.maven.org/maven2/org/hamcrest/hamcrest-all/1.1/hamcrest-all-1.1.pom
-Source7:		hamcrest-text-1.1.pom
-Patch0:			hamcrest-1.1-build.patch
+Summary:	Hamcrest matcher object framework
+Name:		hamcrest
+Version:	1.1
+Release:	2.0.7
+License:	BSD
+Group:		Development/Java
+Url:		http://code.google.com/p/hamcrest/
+Source0:	http://hamcrest.googlecode.com/files/hamcrest-1.1.tgz
+Source1:	http://repo1.maven.org/maven2/org/hamcrest/hamcrest-parent/1.1/hamcrest-parent-1.1.pom
+Source2:	http://repo1.maven.org/maven2/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.pom
+Source3:	http://repo1.maven.org/maven2/org/hamcrest/hamcrest-integration/1.1/hamcrest-integration-1.1.pom
+Source4:	http://repo1.maven.org/maven2/org/hamcrest/hamcrest-generator/1.1/hamcrest-generator-1.1.pom
+Source5:	http://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.pom
+Source6:	http://repo1.maven.org/maven2/org/hamcrest/hamcrest-all/1.1/hamcrest-all-1.1.pom
+Source7:	hamcrest-text-1.1.pom
+Patch0:		hamcrest-1.1-build.patch
 BuildRequires:	jpackage-utils >= 0:1.7.4
 BuildRequires:	java-rpmbuild
 BuildRequires:	ant >= 0:1.6.5
@@ -67,15 +65,14 @@ Requires:	easymock2
 Requires:	jmock
 Requires:	qdox
 %if ! %{gcj_support}
-Buildarch:		noarch
+Buildarch:	noarch
 %endif
 
 %if %{gcj_support}
 BuildRequires:	java-gcj-compat-devel
 %endif
 
-Requires(post):		jpackage-utils >= 0:1.7.4
-Requires(postun):	jpackage-utils >= 0:1.7.4
+Requires(post,postun):	jpackage-utils >= 0:1.7.4
 
 %description
 Provides a library of matcher objects (also known as 
@@ -201,7 +198,6 @@ cp -pr %{name}-examples %{buildroot}%{_datadir}/%{name}-%{version}/
 %endif
 
 %files
-%defattr(0644,root,root,0755)
 %doc LICENSE.txt
 %{_javadir}/%{name}
 %{_datadir}/maven2
@@ -209,40 +205,11 @@ cp -pr %{name}-examples %{buildroot}%{_datadir}/%{name}-%{version}/
 %{gcj_files}
 
 %files javadoc
-%defattr(0644,root,root,0755)
 %doc %{_javadocdir}/%{name}-%{version}
 %doc %{_javadocdir}/%{name}
 
 %if !%{with bootstrap}
 %files demo
-%defattr(0644,root,root,0755)
 %{_datadir}/%{name}-%{version}
 %endif
-
-%changelog
-* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.1-2.0.4mdv2011.0
-+ Revision: 605850
-- rebuild
-
-* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.1-2.0.3mdv2010.1
-+ Revision: 522835
-- rebuilt for 2010.1
-
-* Wed Sep 02 2009 Christophe Fergeau <cfergeau@mandriva.com> 0:1.1-2.0.2mdv2010.0
-+ Revision: 425139
-- rebuild
-
-* Wed Aug 06 2008 Thierry Vignaud <tv@mandriva.org> 0:1.1-2.0.1mdv2009.0
-+ Revision: 264653
-- rebuild early 2009.0 package (before pixel changes)
-
-* Wed Apr 16 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.1-1.0.1mdv2009.0
-+ Revision: 194992
-- BR java-rpmbuild
-- add ant.jar to classpath also
-- try again to fix ant-launcher
-- really add ant-launcher
-- add ant-launcher to the classpath
-- import hamcrest
-
 
