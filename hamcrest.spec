@@ -31,7 +31,7 @@
 %define gcj_support 0
 %bcond_without	bootstrap
 
-Summary:	Hamcrest matcher object framework
+Summary:	Matcher object framework
 Name:		hamcrest
 Version:	1.1
 Release:	2.0.7
