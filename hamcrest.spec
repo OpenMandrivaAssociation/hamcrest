@@ -34,7 +34,7 @@
 Summary:	Matcher object framework
 Name:		hamcrest
 Version:	1.1
-Release:	2.0.9
+Release:	2.0.10
 License:	BSD
 Group:		Development/Java
 Url:		http://code.google.com/p/hamcrest/
