@@ -51,7 +51,7 @@
 
 Name:           hamcrest
 Version:        1.3
-Release:        5.2%{?dist}
+Release:        5.3%{?dist}
 Epoch:          0
 Summary:        Library of matchers for building test expressions
 License:        BSD
@@ -262,7 +262,7 @@ cp -pr %{name}-examples $RPM_BUILD_ROOT%{_datadir}/%{name}/
 %{_javadir}/%{name}/unit-test.jar
 %endif
 %{_mavenpomdir}/*
-%{_mavendepmapfragdir}/*
+%{_datadir}/maven-metadata/hamcrest.xml
 
 %files javadoc
 %{_javadocdir}/%{name}
