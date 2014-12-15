@@ -34,9 +34,6 @@
 %define bcond_with()    %{expand:%%{?_with_%{1}:%%global with_%{1} 1}}
 %define bcond_without() %{expand:%%{!?_without_%{1}:%%global with_%{1} 1}}
 
-# This option controls integration which requires easymock2 and jmock
-%bcond_without integration
-
 # This option controls jarjar on qdox
 # Since bundling the qdox classes prevents upgrades, we disable it by default
 %bcond_with jarjar
@@ -44,19 +41,14 @@
 # This option controls tests which requires ant-junit and testng
 %bcond_with tests
 
-# If integration is disabled, then tests are disabled
-%if %without integration
-%bcond_with tests
-%endif
-
 Name:           hamcrest
 Version:        1.3
-Release:        5.3%{?dist}
+Release:        8.1
 Epoch:          0
 Summary:        Library of matchers for building test expressions
 License:        BSD
 URL:            http://code.google.com/p/hamcrest/
-Group:			Development/Java
+Group:          Development/Java
 Source0:        http://%{name}.googlecode.com/files/%{name}-1.3.tgz
 Source1:        http://repo1.maven.org/maven2/org/%{name}/%{name}-parent/%{version}/%{name}-parent-%{version}.pom
 Source2:        http://repo1.maven.org/maven2/org/%{name}/%{name}-library/%{version}/%{name}-library-%{version}.pom
@@ -76,24 +68,18 @@ Source12:       hamcrest-generator-MANIFEST.MF
 
 Patch0:         %{name}-%{version}-build.patch
 Patch1:         %{name}-%{version}-no-jarjar.patch
-Patch2:         %{name}-%{version}-no-integration.patch
 Patch3:         %{name}-%{version}-javadoc.patch
 
-Requires:       java >= 1:1.6.0
+Requires:       java-headless >= 1:1.6.0
 Requires:       qdox
-%if %with integration
 Requires:       easymock3
-#Requires:       jmock
-%endif
 
 BuildRequires:  jpackage-utils >= 0:1.7.4
 BuildRequires:  java-devel >= 1:1.6.0
 BuildRequires:  ant >= 0:1.6.5
 BuildRequires:  ant-junit
 BuildRequires:  zip
-%if %with integration
 BuildRequires:  easymock3
-%endif
 %if %with jarjar
 BuildRequires:  jarjar
 %endif
@@ -112,7 +98,7 @@ frameworks. Typical scenarios include testing frameworks, mocking libraries and
 UI validation rules.
 
 %package javadoc
-
+Group:          Documentation
 Summary:        Javadoc for %{name}
 BuildArch:      noarch
 
@@ -120,7 +106,6 @@ BuildArch:      noarch
 Javadoc for %{name}.
 
 %package demo
-
 Summary:        Demos for %{name}
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires:       junit
@@ -144,12 +129,9 @@ ln -sf $(build-classpath jarjar) lib/generator/
 # BUILD/hamcrest-1.1/lib/generator/qdox-1.6.1.jar.no
 ln -sf $(build-classpath qdox) lib/generator/
 # BUILD/hamcrest-1.1/lib/integration/easymock-2.2.jar.no
-%if %with integration
-# easymock2 is now compat package
 ln -sf $(build-classpath easymock3) lib/integration/
 # BUILD/hamcrest-1.1/lib/integration/jmock-1.10RC1.jar.no
 ln -sf $(build-classpath jmock) lib/integration/
-%endif
 # BUILD/hamcrest-1.1/lib/integration/testng-4.6-jdk15.jar.no
 %if %with tests
 ln -sf $(build-classpath testng-jdk15) lib/integration/
@@ -157,9 +139,6 @@ ln -sf $(build-classpath testng-jdk15) lib/integration/
 %patch0 -p1
 %if %without jarjar
 %patch1 -p1
-%endif
-%if %without integration
-%patch2 -p1
 %endif
 %patch3 -p1
 
@@ -225,11 +204,9 @@ install -m 644 build/%{name}-library-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_mavenpomdir}/JPP.%{name}-library.pom
 %add_maven_depmap JPP.%{name}-library.pom %{name}/library.jar
 
-%if %with integration
 install -m 644 build/%{name}-integration-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/integration.jar
 install -m 644 %{SOURCE3} $RPM_BUILD_ROOT%{_mavenpomdir}/JPP.%{name}-integration.pom
 %add_maven_depmap JPP.%{name}-integration.pom %{name}/integration.jar
-%endif
 
 install -m 644 build/%{name}-text-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/text.jar
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_mavenpomdir}/JPP.%{name}-text.pom
@@ -247,22 +224,12 @@ cp -pr build/temp/hamcrest-all-1.3-javadoc.jar.contents/* $RPM_BUILD_ROOT%{_java
 install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -pr %{name}-examples $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
-%files
+%files -f .mfiles
 %doc LICENSE.txt
 %dir %{_javadir}/%{name}
-%{_javadir}/%{name}/all.jar
-%{_javadir}/%{name}/core.jar
-%{_javadir}/%{name}/generator.jar
-%if %with integration
-%{_javadir}/%{name}/integration.jar
-%endif
-%{_javadir}/%{name}/library.jar
-%{_javadir}/%{name}/text.jar
 %if %with tests
 %{_javadir}/%{name}/unit-test.jar
 %endif
-%{_mavenpomdir}/*
-%{_datadir}/maven-metadata/hamcrest.xml
 
 %files javadoc
 %{_javadocdir}/%{name}
@@ -271,6 +238,17 @@ cp -pr %{name}-examples $RPM_BUILD_ROOT%{_datadir}/%{name}/
 %{_datadir}/%{name}
 
 %changelog
+* Wed Jul 30 2014 Mat Booth <mat.booth@redhat.com> - 0:1.3-8
+- Fix FTBFS
+- Always build integration jar (removes some complexity from the spec)
+- Drop unused patch
+
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.3-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Tue Mar 04 2014 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0:1.3-6
+- Use Requires: java-headless rebuild (#1067528)
+
 * Mon Aug 12 2013 Alexander Kurtakov <akurtako@redhat.com> 0:1.3-5
 - Update osgi manifests.
 
@@ -476,3 +454,4 @@ cp -pr %{name}-examples $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 * Sat Feb 17 2001 Guillaume Rousse <g.rousse@linux-mandrake.com> 3.5-1mdk
 - first Mandrake release
+
