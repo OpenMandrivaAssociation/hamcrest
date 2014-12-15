@@ -43,7 +43,7 @@
 
 Name:           hamcrest
 Version:        1.3
-Release:        8.1
+Release:        8.2
 Epoch:          0
 Summary:        Library of matchers for building test expressions
 License:        BSD
@@ -69,6 +69,7 @@ Source12:       hamcrest-generator-MANIFEST.MF
 Patch0:         %{name}-%{version}-build.patch
 Patch1:         %{name}-%{version}-no-jarjar.patch
 Patch3:         %{name}-%{version}-javadoc.patch
+Patch4:		002-fix-random-compilation-failure.patch
 
 Requires:       java-headless >= 1:1.6.0
 Requires:       qdox
@@ -141,6 +142,7 @@ ln -sf $(build-classpath testng-jdk15) lib/integration/
 %patch1 -p1
 %endif
 %patch3 -p1
+%patch4 -p1
 
 perl -pi -e 's/\r$//g' LICENSE.txt
 
