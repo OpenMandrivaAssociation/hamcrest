@@ -43,7 +43,7 @@
 
 Name:           hamcrest
 Version:        1.3
-Release:        8.2
+Release:        8.3
 Epoch:          0
 Summary:        Library of matchers for building test expressions
 License:        BSD
@@ -70,6 +70,7 @@ Patch0:         %{name}-%{version}-build.patch
 Patch1:         %{name}-%{version}-no-jarjar.patch
 Patch3:         %{name}-%{version}-javadoc.patch
 Patch4:		002-fix-random-compilation-failure.patch
+Patch5:		hamcrest-qdox2.0.patch
 
 Requires:       java-headless >= 1:1.6.0
 Requires:       qdox
@@ -80,6 +81,7 @@ BuildRequires:  java-devel >= 1:1.6.0
 BuildRequires:  ant >= 0:1.6.5
 BuildRequires:  ant-junit
 BuildRequires:  zip
+BuildRequires:	dos2unix
 BuildRequires:  easymock3
 %if %with jarjar
 BuildRequires:  jarjar
@@ -143,6 +145,8 @@ ln -sf $(build-classpath testng-jdk15) lib/integration/
 %endif
 %patch3 -p1
 %patch4 -p1
+dos2unix hamcrest-generator/src/main/java/org/hamcrest/generator/QDox*.java
+%patch5 -p1
 
 perl -pi -e 's/\r$//g' LICENSE.txt
 
