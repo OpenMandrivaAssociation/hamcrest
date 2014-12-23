@@ -1,5 +1,5 @@
 --- hamcrest-1.3/build.xml.orig	2014-12-23 10:47:01.698570511 +0000
-+++ hamcrest-1.3/build.xml	2014-12-23 10:57:09.942525700 +0000
++++ hamcrest-1.3/build.xml	2014-12-23 11:06:33.538994016 +0000
 @@ -56,13 +56,13 @@
          <mkdir dir="build/temp/hamcrest-library/generated-code"/>
          <java-to-jar srcdir="hamcrest-library/src/main/java"
@@ -16,7 +16,7 @@
                  build/hamcrest-generator-${version}.jar;
                  build/hamcrest-library-${version}.jar;
                ">
-@@ -74,7 +74,7 @@
+@@ -74,13 +74,13 @@
          <!-- Append to library jar -->
          <java-to-jar srcdir="build/temp/hamcrest-library/generated-code"
                       modulename="hamcrest-library"
@@ -25,3 +25,10 @@
      </target>
  
      <target name="integration" depends="core, library" description="Build integration with external tools">
+         <java-to-jar srcdir="hamcrest-integration/src/main/java"
+                      modulename="hamcrest-integration"
+-                     classpath="build/hamcrest-core-${version}.jar;
++                     classpath="build/temp/hamcrest-core-${version}.jar.contents;
+                                 build/hamcrest-library-${version}.jar"/>
+     </target>
+     
