@@ -43,7 +43,7 @@
 
 Name:           hamcrest
 Version:        1.3
-Release:        8.3
+Release:        8.4
 Epoch:          0
 Summary:        Library of matchers for building test expressions
 License:        BSD

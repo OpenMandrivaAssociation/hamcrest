@@ -1,15 +1,27 @@
-Description: Fixes a random compilation failure
-Author: Emmanuel Bourg <ebourg@apache.org>
-Forwarded: yes
-Bug-Debian: https://bugs.debian.org/738789
---- a/build.xml
-+++ b/build.xml
-@@ -36,7 +36,7 @@
+--- hamcrest-1.3/build.xml.orig	2014-12-23 10:47:01.698570511 +0000
++++ hamcrest-1.3/build.xml	2014-12-23 10:57:09.942525700 +0000
+@@ -56,13 +56,13 @@
+         <mkdir dir="build/temp/hamcrest-library/generated-code"/>
+         <java-to-jar srcdir="hamcrest-library/src/main/java"
+                      modulename="hamcrest-library"
+-                     classpath="build/hamcrest-core-${version}.jar"/>
++                     classpath="build/temp/hamcrest-core-${version}.jar.contents"/>
+         <!-- Generate one class with all static imports -->
+         <java classname="org.hamcrest.generator.config.XmlConfigurator"
                fork="yes"
                failonerror="yes"
                classpath="
 -                build/hamcrest-core-${version}.jar;
 +                build/temp/hamcrest-core-${version}.jar.contents;
                  build/hamcrest-generator-${version}.jar;
+                 build/hamcrest-library-${version}.jar;
                ">
-             <arg value="core-matchers.xml"/>
+@@ -74,7 +74,7 @@
+         <!-- Append to library jar -->
+         <java-to-jar srcdir="build/temp/hamcrest-library/generated-code"
+                      modulename="hamcrest-library"
+-                     classpath="build/hamcrest-core-${version}.jar"/>
++                     classpath="build/temp/hamcrest-core-${version}.jar.contents"/>
+     </target>
+ 
+     <target name="integration" depends="core, library" description="Build integration with external tools">
